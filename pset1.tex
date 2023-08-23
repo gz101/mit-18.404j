@@ -1,0 +1,207 @@
+\documentclass[11pt]{article}
+
+%%% Packages
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor} % used for notes and solutions
+\usepackage{hyperref} % used for links
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\pagestyle{myheadings}
+\markright{MIT 18.404/6.840 \hfill PSET 1}
+\pagenumbering{gobble}
+
+\usepackage{geometry}
+\geometry{
+    left=1in,
+    right=1in,
+    top=1in,
+    bottom=1in
+}
+
+%%% Formatting
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0in}
+
+%%% Useful Commands
+
+\newcommand\bit{\{0, 1\}}
+
+\newcommand\false{\textbf{FALSE}}
+\newcommand\true{\textbf{TRUE}}
+
+\newcommand\size[1]{\left|#1\right|} % cardinality
+\newcommand\union{\cup}
+\newcommand\intersect{\cap}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\np}{\mathop{\rm NP}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\vol}{\mathop{\rm Vol}}
+\newcommand{\conp}{\mathop{\rm co-NP}}
+\newcommand{\atisp}{\mathop{\rm ATISP}}
+\renewcommand{\vec}[1]{{\mathbf #1}}
+\newcommand{\cupdot}{\mathbin{\mathaccent\cdot\cup}}
+\newcommand{\mmod}[1]{\ (\mathrm{mod}\ #1)} 
+
+%%% Notes
+
+\newenvironment{hint}{\itshape\color{gray}\textbf{Hint:}}{}
+\newcommand\todo[1]{\textbf{\color{red}[[TODO: \textit{#1}]]}}
+\newcommand\idk{\textbf{\color{orange}I don't know }}
+\newcommand\bonus[1]{BONUS #1}
+
+%%% Questions
+
+%% TODO: Fix \hfill error
+\newcommand\thequestion{\thesection}
+\newenvironment{question}[2]
+{\newpage\section{#1\texorpdfstring{\hfill}{horizontal spacing}{\rm\normalsize #2}}}{}
+
+\newcommand\thesubquestion{\thesubsection}
+\newenvironment{subquestion}[2]
+{\subsection{#1\texorpdfstring{\hfill}{horizontal spacing}{\rm\normalsize #2}}}{}
+
+\newenvironment{solution}
+{\textbf{Solution: }\color{blue}}
+{\color{black}}
+
+%%% Assignment
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 1.32}{[parallel addition]}
+Let \(\Sigma_3\) be defined as the set of column vectors with three entries, where all entry values are either 0 or 1. A string of symbols in \(\Sigma_3\) gives three rows of 0s and 1s. Consider each row to be a binary number and let
+\[B = \{w \in \Sigma_{3}^{*} \text{ } | \text{ the bottom row of } w \text{ is the sum of the top two rows in binary}\}.\]
+
+Show that \(B\) is regular. (Hint: Working with \(B^{R}\) is easier, where \(w^{R}\) is the reverse of the string \(w\). You may assume that if \(w\) is regular, then \(w^{R}\) is regular).
+
+\begin{solution}
+
+To prove that \(B\) is regular, we will instead demonstrate that \(B^{R}\) is regular, utilizing the provided hint. Since \(B^{R}\) consists of strings where the rightmost column is read first (considering \(B\)), we can define a DFA to process \(B^{R}\). By proving that \(B^{R}\) is regular, and given that the reverse of a regular language is regular, we can conclude that \(B\) is also regular.
+
+We first define our DFA, \(D\) as follows. Our alphabet is defined as \(\Sigma = \{000, 011, 101, 110\}\), which represents the only four valid column configurations where the last digit is the sum of the first two. The states of the \(D\) can be written as \(Q = \{q_0, q_1\}\), where \(q_0\) is the state when there is no carry from the previous column, and \(q_1\) is the state when there is a carry present from the previous column.
+
+We define our transition function \(\delta\) to be
+\begin{itemize}
+    \item From \(q_0\):
+    \begin{itemize}
+        \item on 000: stay in \(q_0\), since this represents \(0+0=0\) with no carries.
+        \item on 011: stay in \(q_0\), since this represents \(0+1=1\) with no carries.
+        \item on 101: stay in \(q_0\), since this represents \(1+0=1\) with no carries.
+        \item on 110: move to \(q_1\), since this represents \(1+1=0\) with a carry of 1.
+    \end{itemize}
+    \item From \(q_1\):
+    \begin{itemize}
+        \item on 011: move to \(q_0\), since this represents \(0+1=1\), with an additional carry.
+        \item on 101: move to \(q_0\), since this represents \(1+0=1\), with an additional carry.
+        \item on 110: stay in \(q_1\), since this represents \(1+1=0\), with an additional carry.
+    \end{itemize}
+\end{itemize}
+
+Naturally, our start state is \(q_0\), and our set of accept states is \(F=\{q_0\}\). This is because we start with no carries, and a valid configuration of \(\Sigma_{3}^{*}\) must also have no carries.
+
+Since \(D\) can recognize strings in \(B^{R}\) by processing each column vector from right to left (considering the string in \(B\)). Thus, \(B^{R}\) is regular. Given that the reverse of a regular language is regular, \(B\) is also regular. This completes our proof.
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 1.41}{[regular closure under perfect shuffle]}
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 1.53}{[sequential addition]}
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 1.60}{[small NFA for: \{\(w | w\) contains an a which exactly \(k\) places from the end\}]}
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 1.61}{[any DFA for above language must be large]}
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 2.24}{[very tricky CFL]}
+Think about this language in a different way.
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 2.27}{[if-then-else ambiguous grammar]}
+You do not need to prove your grammar works, but adding a few comments about why it does work might help the grader.
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{(optional) Book 1.59}{[synchronizing sequence]}
+
+
+\begin{solution}
+
+\end{solution}
+\end{question}
+
+\end{document}
