@@ -16,7 +16,12 @@ This repository is meant as a personal reference and documentation of my journey
 
 ## 📖 Table of Contents
 
-- [Problem Set 1](./pdf/pset1_solution.pdf) - Automata and Languages
+- [Problem Set 1](./pdf/pset1_solution.pdf) - Regular Languages and Context-Free Languages
+- Problem Set 2 - Church-Turing Thesis and Decidability
+- Problem Set 3 - Reducibility and Advanced Topics in Computability Theory
+- Problem Set 4 - Time Complexity
+- Problem Set 5 - Time Complexity and Space Complexity
+- Problem Set 6 - Space Complexity, Intractability, and Advanced Topics in Complexity Theory
 
 ## 🛠️ Tools & Languages Used
 
