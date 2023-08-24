@@ -123,9 +123,24 @@ Since \(D\) can recognize strings in \(B^{R}\) by processing each column vector 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{question}{Book 1.41}{[regular closure under perfect shuffle]}
+For languages \(A\) and \(B\), let the \textbf{perfect shuffle} pf \(A\) and \(B\) be the language
+\[\{w | w = a_1 b_1 \ldots a_k b_k, \text{ where } a_1 \ldots a_k \in A \text{ and } b_1 \ldots b_k \in B, \text{ each } a_i,b_i \in \Sigma\}\]
 
+Show that the class of regular languages is closed under perfect shuffle.
 
 \begin{solution}
+
+To show that the class of regular languages is closed under the perfect shuffle operation, we need to demonstrate that if \(A\) and \(B\) are regular languages, then their perfect shuffle \(pf(A,B)\) is also a regular language.
+
+Given that \(A\) and \(B\) are regular, there must exist DFAs \(M_A = (Q_A, \Sigma, \delta_A, q_{0A}, F_A)\) and \(M_B = (Q_B, \Sigma, \delta_B, q_{0B}, F_B)\) that recognize \(A\) and \(B\), respectively.
+
+Let us construct a new DFA \(M_{pf}\) that recognizes \(pf(A,B)\). The idea is to simulate both \(M_A\) and \(M_B\) simultaneously, by walking through the shuffled string in a synchronized manner.
+
+We define our \(M_{pf}\) as follows. Let the states be \(Q_{pf} = Q_A \times Q_B\), such that each state in \(M_{pf}\) corresponds to a pair of states, one from \(M_A\) and one from \(M_B\). We define the alphabet of \(M_{pf}\) to be \(\Sigma_{pf} = \Sigma \times \Sigma\). The transition function is \(\delta_{pf}((p,q),(a,b)) = (\delta_A(p,a), \delta_B(q,b))\), where \((p,q) \in Q_{pf}\) and \(a,b \in \Sigma\). Finally, our start state is \(q_{0pf} = (q_{0A},q_{0B})\), and the set of accepting states are \(F_{pf} = \{(p,q) | p \in F_A \text{ and } q \in F_B\}\).
+
+For a string \(w = a_1 b_1 \ldots a_k b_k\) in the perfect shuffle of \(A\) and \(B\), \(M_{pf}\) starts in state \(q_{0pf}\) and processes the pairs \(a_i,b_i\) using the transition function. It will end up in an accepting state if and only if the \(a_i\) sequence leads \(M_A\) to an accepting state and the \(b_i\) sequence leads \(M_B\) to an accepting state.
+
+Thus, \(M_{pf}\) recognizes \(pf(A,B)\) and since \(pf(A,B)\) can be recognized by a DFA, it is regular. This means that the class of regular languages is closed under the perfect shuffle operation, and this concludes our proof.
 
 \end{solution}
 \end{question}
@@ -135,9 +150,28 @@ Since \(D\) can recognize strings in \(B^{R}\) by processing each column vector 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{question}{Book 1.53}{[sequential addition]}
+Let \(\Sigma = \{0,1,+,=\}\) and
+\[ADD = \{x=y+z | x,y,z \text{ are binary integers, and } x \text{ is the sum of } y \text{ and } z\}.\]
 
+Show that \(ADD\) is not regular.
 
 \begin{solution}
+
+To show that \(ADD\) is not regular, we use the Pumping Lemma for regular languages. We assume for the sake of contradiction that \(ADD\) is regular. Then, there exists a pumping length \(p\). Let us choose the string \(s\) to be \(10^p = 1^p + 1^p\), which is a string that represents a valid addition in binary.
+
+Now let us apply the Pumping Lemma. Given the structure of \(s\), if we write \(s=xyz\), where the conditions from the Pumping Lemma hold, the pump-able substring \(y\) can have several forms:
+\begin{enumerate}
+    \item \(y\) contains only 1s from the leftmost section (before the \(=\) sign): \(y=1^k\) for some \(k>0\).
+    \item \(y\) contains only 0s: \(y=0^k\) for some \(k \leq p\).
+    \item \(y\) spans across the \(=\) or \(+\) signs. But this cannot happen due to the Pumping Lemma restriction that \(|xy| \leq p\).
+    \item \(y\) contains only 1s from the section after the \(+\) sign: \(y=1^k\) for some \(k>0\).
+\end{enumerate}
+
+Now consider the pumped string \(xy^2z\) for each scenario. We omit the third scenario from consideration as it cannot occur.
+
+If \(y\) contains only 1s from the leftmost section, then the pumped string will increase the value on the left side of the equation without changing the right side, resulting in an invalid equation. For the second scenario, if \(y\) consists of only 0s, then the pumped string will again increase the value on the left side of the equation without changing the right side, leading to an invalid equation. Finally, if \(y\) contains only 1s from the section after the \(+\) sign, then the pumped string will increase one of the values on the right side of the equation without changing the left side, leading to an invalid equation.
+
+In all the possible configurations for \(y\), pumping \(y\) to form \(xy^2z\) results in a string that is not in \(ADD\). This is a contradiction, and thus our initial assumption that \(ADD\) is regular must be false. Therefore, this concludes our proof that \(ADD\) is not regular.
 
 \end{solution}
 \end{question}
@@ -146,10 +180,34 @@ Since \(D\) can recognize strings in \(B^{R}\) by processing each column vector 
 %           Question 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{question}{Book 1.60}{[small NFA for: \{\(w | w\) contains an a which exactly \(k\) places from the end\}]}
+\begin{question}{Book 1.60}{[small NFA for: \{\(w | w\) contains an \textbf{a} which exactly \(k\) places from the end\}]}
 
+Let \(\Sigma = \{a,b\}\). For each \(k \geq 1\), let \(C_k\) be the language consisting of all strings that contain an \(a\) exactly \(k\) places from the right-hand end. Thus, \(C_k = \Sigma^* a \Sigma^{k-1}\). Describe an NFA with \(k+1\) states that recognizes \(C_k\) in terms of both a state diagram and a formal description.
 
 \begin{solution}
+
+Given \(k \geq 1\), we want to design an NFA to accept strings where there is an \(a\) exactly \(k\) positions from the end of the string. This means that the NFA will need to use non-deterministic branching every time it sees an \(a\) and continue transitioning for \(k-1\) more characters, at which point it should be in the accept state if the input string is in the language. Non-determinism is required since it is not known if the encountered \(a\) is the one that is \(k-1\) steps from the end of the string. If the NFA reaches the end of the input string before this, then that branch of the computation rejects. If at least one branch accepts, the NFA accepts, otherwise it rejects the input string.
+
+We formally describe the NFA below.
+\begin{itemize}
+    \item \textbf{States}: \(Q=\{q_0,q_1,\ldots,q_{k+1}\}\)
+    \item \textbf{Alphabet}: \(\Sigma = \{a,b\}\)
+    \item \textbf{Transitions}:
+    \begin{itemize}
+        \item \(\delta(q_0,a) = \{q_0, q_1\}\) (the read \(a\) could be one that is \(k-1\) steps from the end, or not).
+        \item \(\delta(q_0,b) = \{q_0\}\) (we ignore characters until we see the first occurrence of \(a\)).
+        \item \(\delta(q_1,a) = \{q_1,q_2\}\) (either this \(a\) or the previous one could be \(k-1\) steps from the end).
+        \item \(\delta(q_1,b) = \{q_2\}\) (if \(k>1\)) (it would be an accepting state if \(k=1\)).
+        \item For \(2 \leq i < k\):
+        \begin{itemize}
+            \item \(\delta(q_i,a)=\{q_1,q_{i+1}\}\) (the read \(a\) could be one that is \(k-1\) steps from the end, or it is part of the final \(k-1\) characters).
+            \item \(\delta(q_i,b)=\{q_{i+1}\}\) (the input forms part of the final \(k-1\) characters).
+        \end{itemize}
+        \item \(\delta(q_k,a)= \delta(q_k,b) = \{q_{k+1}\}\) (always accepts if the final character is valid).
+    \end{itemize}
+    \item \textbf{Start State}: \(q_0\)
+    \item \textbf{Accept State}: \(q_{k+1}\)
+\end{itemize}
 
 \end{solution}
 \end{question}
