@@ -1,0 +1,190 @@
+\documentclass[11pt]{article}
+
+%%% Packages
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor} % used for notes and solutions
+\usepackage{hyperref} % used for links
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\pagestyle{myheadings}
+\markright{MIT 18.404/6.840 \hfill PSET 2}
+\pagenumbering{gobble}
+
+\usepackage{geometry}
+\geometry{
+    left=1in,
+    right=1in,
+    top=1in,
+    bottom=1in
+}
+
+%%% Formatting
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0in}
+
+%%% Useful Commands
+
+\newcommand\bit{\{0, 1\}}
+
+\newcommand\false{\textbf{FALSE}}
+\newcommand\true{\textbf{TRUE}}
+
+\newcommand\size[1]{\left|#1\right|} % cardinality
+\newcommand\union{\cup}
+\newcommand\intersect{\cap}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\np}{\mathop{\rm NP}}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\vol}{\mathop{\rm Vol}}
+\newcommand{\conp}{\mathop{\rm co-NP}}
+\newcommand{\atisp}{\mathop{\rm ATISP}}
+\renewcommand{\vec}[1]{{\mathbf #1}}
+\newcommand{\cupdot}{\mathbin{\mathaccent\cdot\cup}}
+\newcommand{\mmod}[1]{\ (\mathrm{mod}\ #1)} 
+
+%%% Notes
+
+\newenvironment{hint}{\itshape\color{gray}\textbf{Hint:}}{}
+\newcommand\todo[1]{\textbf{\color{red}[[TODO: \textit{#1}]]}}
+\newcommand\idk{\textbf{\color{orange}I don't know }}
+\newcommand\bonus[1]{BONUS #1}
+
+%%% Questions
+
+%% TODO: Fix \hfill error
+\newcommand\thequestion{\thesection}
+\newenvironment{question}[2]
+{\newpage\section{#1\texorpdfstring{\hfill}{horizontal spacing}{\rm\normalsize #2}}}{}
+
+\newcommand\thesubquestion{\thesubsection}
+\newenvironment{subquestion}[2]
+{\subsection{#1\texorpdfstring{\hfill}{horizontal spacing}{\rm\normalsize #2}}}{}
+
+\newenvironment{solution}
+{\textbf{Solution: }\color{blue}}
+{\color{black}}
+
+%%% Assignment
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 2.32}{[proving non-CFL]}
+
+% Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ the number of 1s equals the number of 2s, and the number of 3s equals the number of 4s }\}\). Show that \(C\) is not context-free.
+
+Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ the number of 1s equals the number of 2s, and the }\) \(\text{number of 3s equals the number of 4s }\}\). Show that \(C\) is not context-free.
+
+(Note that the result of this problem demonstrates that the class of CFLs isn’t closed under either complement or intersection. Check that you understand why.)
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 3.12}{[left reset TM]}
+
+
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 3.18}{[decidable iff enumerable in lex order]}
+
+
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 4.17}{[projection of decidable iff T-recognizable]}
+
+
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 4.22}{[useless states in a PDA]}
+
+
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 6
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 4.25}{[decidable DFA problem]}
+
+
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%           Question 7
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{question}{Book 2.22}{[tricky CFL]}
+
+
+
+\begin{solution}
+
+
+
+\end{solution}
+\end{question}
+
+\end{document}
