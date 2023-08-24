@@ -103,7 +103,10 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{question}{Book 3.12}{[left reset TM]}
 
+A \textbf{Turing machine with left reset} is similar to an ordinary Turing machine, but the transition function has the form
+\[\delta : Q \times \Gamma \rightarrow Q \times \Gamma \times \{R, RESET\}.\]
 
+If \(\delta (q,a) = (r,b,RESET)\), when the machine is in state \(q\) reading an \(a\), the machine's head jumps to the left-hand end of the tape after it writes \(b\) on the tape and enters state \(r\). Note that these machines do not have the usual ability to move the head one symbol left. Show that Turing machines with left reset recognize the class of Turing-recognizable languages.
 
 \begin{solution}
 
@@ -118,7 +121,7 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{question}{Book 3.18}{[decidable iff enumerable in lex order]}
 
-
+Show that a language is decidable iff some enumerator enumerates the language in the standard string order.
 
 \begin{solution}
 
@@ -133,7 +136,7 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{question}{Book 4.17}{[projection of decidable iff T-recognizable]}
 
-
+Prove that \(EQ_{DFA}\) is decidable by testing the two DFAs on all strings up to a certain size. Calculate a size that works.
 
 \begin{solution}
 
@@ -148,7 +151,7 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{question}{Book 4.22}{[useless states in a PDA]}
 
-
+Let \(\text{PREFIX-FREE}_{REX} = \{ \langle R \rangle | \text{ R is a regular expression and } L(R) \text{ is prefix-free } \}\). Show that \(\text{PREFIX-FREE}_{REX}\) is decidable. Why does a similar approach fail to show that \(\text{PREFIX-FREE}_{CFG}\) is decidable?
 
 \begin{solution}
 
@@ -163,7 +166,7 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{question}{Book 4.25}{[decidable DFA problem]}
 
-
+Let \(BAL_{DFA} = \{ \langle M \rangle | M \text{ is a DFA that accepts some string containing an equal number of 0s and 1s } \}\). Show that \(BAL_{DFA}\) is decidable. (Hint: Theorems about CFLs are helpful here.)
 
 \begin{solution}
 
@@ -178,7 +181,7 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{question}{Book 2.22}{[tricky CFL]}
 
-
+Let \(C= \{ x\#y | x,y \in \{ 0,1 \}^* \text{ and } x \neq y \}\). Show that \(C\) is a context-free language.
 
 \begin{solution}
 
