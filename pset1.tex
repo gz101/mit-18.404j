@@ -186,7 +186,9 @@ Let \(\Sigma = \{a,b\}\). For each \(k \geq 1\), let \(C_k\) be the language con
 
 \begin{solution}
 
-Given \(k \geq 1\), we want to design an NFA to accept strings where there is an \(a\) exactly \(k\) positions from the end of the string. This means that the NFA will need to use non-deterministic branching every time it sees an \(a\) and continue transitioning for \(k-1\) more characters, at which point it should be in the accept state if the input string is in the language. Non-determinism is required since it is not known if the encountered \(a\) is the one that is \(k-1\) steps from the end of the string. If the NFA reaches the end of the input string before this, then that branch of the computation rejects. If at least one branch accepts, the NFA accepts, otherwise it rejects the input string.
+Given \(k \geq 1\), we want to design an NFA to accept strings where there is an \(a\) exactly \(k\) positions from the end of the string. This means that the NFA will need to use non-deterministic branching every time it sees an \(a\) and continue transitioning for \(k-1\) more characters, at which point it should be in the accept state if the input string is in the language. 
+
+Non-determinism is required since it is not known if the encountered \(a\) is the one that is \(k-1\) steps from the end of the string. If the NFA reaches the end of the input string before this, then that branch of the computation rejects. If at least one branch accepts, the NFA accepts, otherwise it rejects the input string.
 
 We formally describe the NFA below.
 \begin{itemize}
@@ -209,6 +211,8 @@ We formally describe the NFA below.
     \item \textbf{Accept State}: \(q_{k+1}\)
 \end{itemize}
 
+A state diagram follows naturally from the above description.
+
 \end{solution}
 \end{question}
 
@@ -218,8 +222,21 @@ We formally describe the NFA below.
 
 \begin{question}{Book 1.61}{[any DFA for above language must be large]}
 
+Consider the languages \(C_k\) defined in Problem 1.60. Prove that for each \(k\), no DFA can recognize \(C_k\) with fewer than \(2^k\) states.
 
 \begin{solution}
+
+Suppose for the sake of contradiction that there exists a DFA \(D\) that recognizes \(C_k\) and has fewer than \(2^k\) states. Consider running the DFA \(D\) on all strings of length \(k\). Since there are \(2^k\) such strings and \(D\) has fewer than \(2^k\) states, by the pigeonhole principle, there must be at least two different strings, say \(w_1\) and \(w_2\), that cause \(D\) to end up in the same state after processing the strings.
+
+The state must have the same behavior regarding any further inputs that are the same, since the DFA doesn't have memory of past inputs beyond its current state. Consider the following possible cases if the strings were extended in length (i.e. \(w_1 b^{k-1}\) and \(w_2 b^{k-1}\)).
+
+If both \(w_1\) and \(w_2\) end in an \(a\), appending \(b^{k-1}\) to both will result in both \(w_1 b^{k-1}\) and \(w_2 b^{k-1}\) being in \(C_k\). \(D\) would accept both strings.
+
+If both \(w_1\) and \(w_2\) do not end in an \(a\), appending \(b^{k-1}\) to both will result in neither of the strings being in \(C_k\). \(D\) would reject both strings.
+
+Now suppose without loss of generality that \(w_1\) ends in an \(a\) and \(w_2\) doesn't. If we append \(b^{k-1}\) to both, \(w_1 b^{k-1}\) is in \(C_k\), but \(w_2 b^{k-1}\) isn't. However, since \(D\) is in the same state after reading both \(w_1\) and \(w_2\), it cannot differentiate between these two cases and will either accept both strings or reject both, which gives our desired contradiction.
+
+Thus, no DFA can recognize \(C_k\) with fewer than \(2^k\) states.
 
 \end{solution}
 \end{question}
@@ -229,10 +246,24 @@ We formally describe the NFA below.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{question}{Book 2.24}{[very tricky CFL]}
-Think about this language in a different way.
 
+Let \(E = \{ a^i b^j | i \neq j \text{ and } 2i \neq j \}\). Show that \(E\) is a context-free language.
+
+Hint: Think about this language in a different way.
 
 \begin{solution}
+
+To show that a language is context-free, one common technique is to find a CFG that generates it. Given \(E\) as defined in the problem statement, we use the hint and consider what the language is not. Since the language of \(E\) is defined by what it is not equal to, we consider the complement \(\overline{E}\), which contains the strings where \(i = j\) or \(2i = j\).
+
+\(\overline{E}\) can be described by the languages \(F_1 = \{a^i b^i | i \geq 0\}\) (where \(i=j\)), and \(F_2 = \{a^i b^{2i} | i \geq 0\}\) (where \(2i=j\)). It is trivial to show that the CFG defined by \(S_1 \rightarrow a S_1 b | \epsilon\) generates \(F_1\), and the CFG defined by \(S_2 \rightarrow a S_2 bb | \epsilon\) generates \(F_2\).
+
+Consider the regular language \(R=a^* b^*\). This is the set of all strings with any number of \(a\)s followed by any number of \(b\)s. \(E\) consists of strings in \(R\) that are not in \(F_1 \union F_2\). This can be framed as a set difference of \(R \setminus (F_1 \union F_2)\). While CFLs aren't closed under set difference, we are performing a set difference with a regular language, which has more flexible properties.
+
+Given that regular languages are closed under complementation and CFLs are closed under intersection with regular languages, the set difference of a regular language and CFL can be equivalently represented by an intersection of the complement of the CFL (within the regular language) and the regular language itself.
+
+So consider the complement of \(F_1 \union F_2\) within \(R\). This complement is regular since it is defined within the regular language \(R\). Then \(E\) can be equivalently defined as \(R \intersect (\overline{R} \intersect (\overline{F_1 \union F_2}))\). To elaborate, \(\overline{R}\) is the complement of \(R\) within the universe of all strings. Since \(\overline{R}\) is also a regular language (because regular languages are closed under complementation) and the intersection of a regular language and CFL is a CFL, the resulting language is context-free.
+
+Since \(R\) is a regular language and \(\overline{R} \intersect (\overline{F_1 \union F_2})\) is context-free, so then \(E\) is a context-free language. This concludes our proof.
 
 \end{solution}
 \end{question}
@@ -242,10 +273,78 @@ Think about this language in a different way.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{question}{Book 2.27}{[if-then-else ambiguous grammar]}
+
+Let \(G = (V, \Sigma, R, \langle STMT \rangle)\) be the following grammar.
+
+\begin{equation*}
+    \begin{split}
+        \langle STMT \rangle &\rightarrow \langle ASSIGN \rangle | \langle IF-THEN \rangle | \langle IF-THEN-ELSE \rangle \\
+        \langle IF-THEN \rangle &\rightarrow \text{if condition then } \langle STMT \rangle \\
+        \langle IF-THEN-ELSE \rangle &\rightarrow \text{if condition then } \langle STMT \rangle \text{ else } \langle STMT \rangle \\
+        \langle ASSIGN \rangle &\rightarrow \text{ a := 1 }
+    \end{split}
+\end{equation*}
+
+\begin{equation*}
+    \begin{split}
+        \Sigma &= \{ \text{if, condition, then, else, a:= 1} \} \\
+        V &= \{ \langle STMT \rangle, \langle IF-THEN \rangle, \langle IF-THEN-ELSE \rangle, \langle ASSIGN \rangle \}
+    \end{split}
+\end{equation*}
+
+\(G\) is a natural-looking grammar for a fragment of a programming language, but \(G\) is ambiguous.
+\begin{enumerate}
+    \item Show that \(G\) is ambiguous.
+    \item Give a new unambiguous grammar for the same language.
+\end{enumerate}
+
 You do not need to prove your grammar works, but adding a few comments about why it does work might help the grader.
 
-
 \begin{solution}
+
+To show that \(G\) is ambiguous, we need to prove that there exists a string that can be derived in two different parse trees. The ambiguity int his grammar arises due to the ``dangling else" problem. Let us consider the following statement: \verb|if condition then if condition then a:=1 else a:= 1|. This statement can be interpreted in the two following ways:
+
+\begin{enumerate}
+    \item The ``else" belongs to the first ``if":
+    \begin{equation*}
+        \begin{split}
+            \langle STMT \rangle &\rightarrow \langle IF-THEN-ELSE \rangle \\
+                                 &\rightarrow \text{ if condition then } \langle STMT \rangle \text{ else } \langle STMT \rangle \\
+                                 &\rightarrow \text{ if condition then } \langle IF-THEN \rangle \text{ else } \langle STMT \rangle \\
+                                 &\rightarrow \text{ if condition then (if condition then } \langle STMT \rangle \text{) else } \langle STMT \rangle \\
+                                 &\rightarrow \text{ if condition then (if condition then a := 1 ) else a := 1}
+        \end{split}
+    \end{equation*}
+    \item The ``else" belongs to the second ``if":
+    \begin{equation*}
+        \begin{split}
+            \langle STMT \rangle &\rightarrow \langle IF-THEN \rangle \\
+                                 &\rightarrow \text{ if condition then } \langle STMT \rangle \\
+                                 &\rightarrow \text{ if condition then } \langle IF-THEN-ELSE \rangle \\
+                                 &\rightarrow \text{ if condition then (if condition then } \langle STMT \rangle \text{ else } \langle STMT \rangle \text{)} \\
+                                 &\rightarrow \text{ if condition then (if condition then a := 1 else a := 1)}
+        \end{split}
+    \end{equation*}
+\end{enumerate}
+
+Both grammars are valid according to \(G\), proving that \(G\) is ambiguous.
+
+We now turn to giving a new unambiguous grammar for the same language. We can fix the ambiguity by ensuring that every ``else" clause is associated with the closest preceding ``if" that doesn't already have an ``else". One way to do this is by distinguishing between statements that end with an ``else" clause and those that do not:
+
+\begin{equation*}
+    \begin{split}
+        \langle STMT \rangle &\rightarrow \langle MATCHED \rangle | \langle UNMATCHED \rangle \\
+        \langle MATCHED \rangle &\rightarrow \langle ASSIGN \rangle | \langle MATCHED-IF-THEN-ELSE \rangle \\
+        \langle MATCHED-IF-THEN-ELSE \rangle &\rightarrow \text{if condition then } \langle MATCHED \rangle \text{ else } \langle MATCHED \rangle \\
+        \langle UNMATCHED \rangle &\rightarrow \text{if condition then } \langle STMT \rangle | \\
+        &\text{if condition then } \langle MATCHED \rangle \text{ else } \langle UNMATCHED \rangle \\
+        \langle ASSIGN \rangle &\rightarrow \text{ a := 1 }
+    \end{split}
+\end{equation*}
+
+A \(\langle MATCHED \rangle\) statement is either an assignment or an if-then-else where both the ``then" and ``else" parts are also \(\langle MATCHED \rangle\) statements. On the other hand, an \(\langle UNMATCHED \rangle\) statement is an if-then statement where the ``then" part can be any statement or an if-then-else where the ``then" part is a \(\langle MATCHED \rangle\) statement and the ``else" part is an \(\langle UNMATCHED \rangle\) statement.
+
+This ensures that the ``else" is always matched with the nearest ``if", thereby removing the ambiguity.
 
 \end{solution}
 \end{question}
