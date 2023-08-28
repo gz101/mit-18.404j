@@ -253,7 +253,7 @@ Hint: Think about this language in a different way.
 
 \begin{solution}
 
-To show that a language is context-free, one common technique is to find a CFG that generates it. Given \(E\) as defined in the problem statement, we use the hint and consider what the language is not. Since the language of \(E\) is defined by what it is not equal to, we consider the complement \(\overline{E}\), which contains the strings where \(i = j\) or \(2i = j\).
+To show that \(E\) is context-free, we demonstrate a CFG that generates it. Given \(E\) as defined in the problem statement, we use the hint and consider what the language is not. Since the language of \(E\) is defined by what it is not equal to, we consider the complement \(\overline{E}\), which contains the strings where \(i = j\) or \(2i = j\).
 
 \(\overline{E}\) can be described by the languages \(F_1 = \{a^i b^i | i \geq 0\}\) (where \(i=j\)), and \(F_2 = \{a^i b^{2i} | i \geq 0\}\) (where \(2i=j\)). It is trivial to show that the CFG defined by \(S_1 \rightarrow a S_1 b | \epsilon\) generates \(F_1\), and the CFG defined by \(S_2 \rightarrow a S_2 bb | \epsilon\) generates \(F_2\).
 

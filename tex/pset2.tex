@@ -92,7 +92,23 @@ Let \(\Sigma = \{1,2,3,4\}\) and \(C=\{w \in \Sigma^* | \text{ in } w, \text{ th
 
 \begin{solution}
 
+To demonstrate that \(C\) is not a context-free language, we use the Pumping Lemma for CFLs. We first assume for the sake of contradiction that \(C\) is a CFL. Then by the pumping lemma, there exists \(p\) such that any string \(s\) in \(C\) of length at least \(p\) can be written in the form \(uvwxy\) that satisfies the three conditions in the pumping lemma.
 
+Let us select the string \(s = 1^p3^p2^p4^p\). Clearly, \(s\) is in \(C\) and \(|s| \geq p\).
+
+Now, for any division of \(s\) into \(uvwxy\) satisfying the pumping lemma property \(|vwx| \leq p\), it can contain at most two character types (1s and 3s, or 3s and 2s, or 2s and 4s), since \(vwx\) can span at most \(p\) characters. Also, \(s\) cannot contain exactly one type of character as well, as pumping up would cause the number of characters to become imbalanced. We enumerate all possible remaining cases:
+
+\begin{itemize}
+    \item \(vwx\) \textbf{contains 1s and 3s}: Pumping up will increase the number of 1s and 3s, but the counts of 2s and 4s will remain the same. This results in an illegal string.
+    \item \(vwx\) \textbf{contains 3s and 2s}: Pumping up will increase the number of 3s and 2s, but the counts of 1s and 4s will remain the same. This also results in an illegal string.
+    \item \(vwx\) \textbf{contains 2s and 4s}: This is analogous to the first case.
+\end{itemize}
+
+In all the cases, the pumped string won't satisfy the conditions of \(C\). Therefore, we have shown that the string \(s\) cannot be pumped according to the pumping lemma, contradicting our assumption that \(C\) is a context-free language. Thus, \(C\) is not a context-free language, and this concludes our proof.
+
+The result of this problem shows that CFLs are not closed under intersection. Consider the language \(A = \{ w \in \Sigma^* | \text{ number of 1s in } w \text{ equals the number of 2s in } w \}\), and the language \(B = \{ w \in \Sigma^* | \text{ number of 3s in } w \text{ equals the number of 4s in } w\}\). Clearly, a PDA can recognize this language by storing the number of one of the characters and matching it with the other, proving that both \(A\) and \(B\) are context-free. However, their intersection \(C=A \intersect B\) is not context-free, as this problem shows.
+
+Additionally, this problem shows that CFLs are not closed under complement. Consider the language \(\overline{C} = \overline{A} \union \overline{B}\), where \(\overline{A}\) contains all strings with an unequal number of 1s and 2s, and \(\overline{B}\) contains all strings with an unequal number of 3s and 4s. Both these languages are context-free (because a PDA can simulate it, similar to our explanation for the intersection), and context-free languages are closed under union, so \(\overline{C}\) is context-free. However, as shown in this problem, \(\overline{C}\)'s complement (i.e. \(C\)) is not context-free.
 
 \end{solution}
 \end{question}
@@ -185,7 +201,22 @@ Let \(C= \{ x\#y | x,y \in \{ 0,1 \}^* \text{ and } x \neq y \}\). Show that \(C
 
 \begin{solution}
 
+To show that \(C\) is a context-free language, we will construct a context-free grammar \(G\) that generates \(C\). There are two primary scenarios where \(x\) is different to \(y\). Firstly, when the two strings differ in length, and secondly, when the two strings are of the same length, but differ at some position.
 
+We present \(G\) below:
+\begin{equation*}
+    \begin{split}
+        S &\rightarrow X0Z \# X1W | X1Z \# X0W | 0X \# Y | 1X \# Y | Y \# 0X | Y \# 1X \text{ (start symbol)} \\
+        X &\rightarrow 0X | 1X | \epsilon \text{ (generates any string in \(\{0,1\}^*\))} \\
+        Y &\rightarrow 0Y | 1Y | 0 | 1 \text{ (generates any non-empty string in \(\{0,1\}^*\))} \\
+        Z &\rightarrow 0Z | 1Z | \epsilon \text{ (similar to \(X\), used to generate strings that differ at some position)} \\
+        W &\rightarrow 0W | 1W | \epsilon \text{ (similar to \(X\), used to generate strings that differ at some position)}
+    \end{split}
+\end{equation*}
+
+For the rules in \(S\), \(X0Z \# X1W\) and \(X1Z \# X0W\) ensure that the strings have the same prefix \(X\), differ at the current position (one has 0 and the other has 1), and can have any strings \(Z\) and \(W\) afterward. The other rules ensure that if they differ in length, then one string can be generated with \(X\) and the other with \(Y\) ensuring at least one character difference (either by having a different bit or by length difference).
+
+Using this CFG, any string in \(C\) can be generated, and this concludes our proof.
 
 \end{solution}
 \end{question}
